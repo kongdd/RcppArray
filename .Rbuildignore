@@ -1,0 +1,5 @@
+^\.travis\.yml$
+^README\.Rmd$
+^\.gitignore$
+^.*\.Rproj$
+^\.Rproj\.user$

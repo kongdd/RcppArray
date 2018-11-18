@@ -1,0 +1,17 @@
+Package: RcppArray
+Type: Package
+Title: Avoid Deep Copy in Matrix and Array.
+Version: 0.0.9000
+Date: 2018-11-18
+Authors@R: c(
+    person("Dongdong", "Kong", role = c("aut", "cre"), email = "kongdd.sysu@gmail.com"))
+Description: Avoid Deep Copy in Matrix and Array.
+License: GPL-2 | file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    Rcpp
+LinkingTo: Rcpp, RcppArmadillo
+RoxygenNote: 6.1.1
+Suggests: 
+    testthat

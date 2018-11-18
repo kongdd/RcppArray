@@ -1,0 +1,84 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+# RcppArray
+
+[![Travis build status](https://travis-ci.org/kongdd/RcppArray.svg?branch=master)](https://travis-ci.org/kongdd/RcppArray)
+
+The goal of RcppArray is to avoid `matrix` or `array` deep copy when assigning 
+new values. 
+
+
+## Installation
+
+```r
+devtools::install_github("kongdd/RcppArray")
+```
+
+## Example
+
+This is a basic example which shows you the performance of \code{RcppArray}:
+
+```{r example}
+library(magrittr)
+library(RcppArray)
+
+## test performance
+nrow <- 1e2
+ncol <- 1e2
+ntime <- 1e3
+
+arr <- array(rnorm(nrow*ncol*ntime), dim = c(nrow, ncol, ntime))
+# arr <- aperm(arr, c(2, 1, 3))
+mat   <- `dim<-`(arr, c(nrow*ncol, ntime))
+
+n <- 1000
+newval <- rnorm(1:n) %>% array(dim = c(n, 100))
+newval_3d <- `dim<-`(newval, dim = c(n/10, 10, 100))
+
+fill_r <- function(){
+    mat[1:n, 1:100] <- newval  
+}
+
+fill_rcpp <- function(){
+    fill_matrix_rcpp(mat, newval)
+}
+
+fill_arma <- function(){
+    fill_matrix_arma(mat, newval)
+}
+
+fill_r3d <- function(){
+    arr[1:(n/10), 1:10, 1:100] <- newval
+}
+
+fill_arma3d <- function(){
+    fill_array3d(arr, newval_3d)
+}
+```
+
+You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
+
+You can also embed plots, for example:
+
+```{r}
+rbenchmark::benchmark(
+    fill_r(),
+    fill_rcpp(),
+    fill_arma(),
+    fill_r3d(),
+    fill_arma3d(),
+    replications = 100, order='elapsed'
+)
+```
