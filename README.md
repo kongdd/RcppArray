@@ -57,11 +57,6 @@ fill_arma3d <- function(){
 }
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date.
-
-You can also embed plots, for example:
-
 ``` r
 rbenchmark::benchmark(
     fill_r(),

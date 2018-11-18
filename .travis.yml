@@ -8,8 +8,6 @@ matrix:
   include:
     - r: release
     - r: devel
-    - os: osx
-      fortran: false
 
 warnings_are_errors: false
 
